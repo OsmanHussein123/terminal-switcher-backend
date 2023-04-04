@@ -1,6 +1,11 @@
 version: '3.4'
 
 services:
+  securityservice:
+    image: ${DOCKER_REGISTRY-}securityservice
+    build:
+      context: .
+      dockerfile: SecurityService/Dockerfile
   loginservice:
     image: ${DOCKER_REGISTRY-}loginservice
     build:
@@ -8,11 +13,21 @@ services:
       dockerfile: LoginService/Dockerfile
     depends_on:
           - db
+  containerservice:
+    image: ${DOCKER_REGISTRY-}containerservice
+    build:
+      context: .
+      dockerfile: ContainerService/Dockerfile
+    ports:
+        - "8081:80"
+        - "8082:443"
+    depends_on:
+          - db
   db:
         image: "mcr.microsoft.com/mssql/server:2022-latest"
         ports:
           - "1433:1433"
-
         environment:
             SA_PASSWORD: "S3cur3P@ssW0rd!"
             ACCEPT_EULA: "Y"
+

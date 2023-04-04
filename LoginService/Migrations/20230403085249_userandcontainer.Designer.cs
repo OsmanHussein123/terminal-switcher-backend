@@ -3,6 +3,7 @@ using LoginService.data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LoginService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230403085249_userandcontainer")]
+    partial class userandcontainer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,10 +35,6 @@ namespace LoginService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -50,22 +48,19 @@ namespace LoginService.Migrations
                         new
                         {
                             Id = 1,
-                            ContainerName = "80b8d683-86d3-4360-8303-e2184933f064",
-                            Image = "alpine",
+                            ContainerName = "nostalgic_goodall",
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            ContainerName = "2de33b71-08eb-4932-9118-b37972246344",
-                            Image = "ubuntu",
+                            ContainerName = "Ubuntu",
                             UserId = 1
                         },
                         new
                         {
                             Id = 3,
-                            ContainerName = "29468db0-95c6-4776-9a79-a30f7c358cb0",
-                            Image = "debian",
+                            ContainerName = "Ubuntu",
                             UserId = 2
                         });
                 });
@@ -107,11 +102,13 @@ namespace LoginService.Migrations
 
             modelBuilder.Entity("LoginService.models.Container", b =>
                 {
-                    b.HasOne("LoginService.models.User", null)
+                    b.HasOne("LoginService.models.User", "User")
                         .WithMany("Containers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("LoginService.models.User", b =>

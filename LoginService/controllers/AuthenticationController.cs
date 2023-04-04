@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using BCrypt.Net;
 
 namespace LoginService.controllers
 {
@@ -49,6 +50,39 @@ namespace LoginService.controllers
 
             return Ok(token);
         }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] User user)
+        {
+            var dbUser = await _context
+                .Users
+                .SingleOrDefaultAsync(u => u.Username == user.Username);
+
+            if (dbUser != null)
+            {
+                return NotFound("User already exist");
+            }
+
+            // hash password
+            user.Password = user.Password;
+
+            // save user
+            _context.Users.Add(user);
+            _context.SaveChanges();
+
+            return Ok(new { message = "Registration successful" });
+        }
+
+        [HttpGet("users")]
+        public async Task<IActionResult> Users()
+        {
+            
+            var users = await _context.Users.Include(e => e.Containers).ToListAsync();
+
+           
+            return Ok(users);
+        }
+
         [HttpGet("verify")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> VerifyToken()
@@ -73,5 +107,7 @@ namespace LoginService.controllers
 
             return NoContent();
         }
+
+        
     }
 }

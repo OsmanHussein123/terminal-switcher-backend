@@ -3,6 +3,7 @@ using LoginService.data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LoginService.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230404110945_changedContainer")]
+    partial class changedContainer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,22 +52,22 @@ namespace LoginService.Migrations
                         new
                         {
                             Id = 1,
-                            ContainerName = "80b8d683-86d3-4360-8303-e2184933f064",
+                            ContainerName = "e28112fb-c324-4356-b73f-5e62e1c8e274",
                             Image = "alpine",
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            ContainerName = "2de33b71-08eb-4932-9118-b37972246344",
-                            Image = "ubuntu",
+                            ContainerName = "757747b3-7a7e-4102-8d7c-f19834c661e0",
+                            Image = "Ubuntu",
                             UserId = 1
                         },
                         new
                         {
                             Id = 3,
-                            ContainerName = "29468db0-95c6-4776-9a79-a30f7c358cb0",
-                            Image = "debian",
+                            ContainerName = "09d14f64-c6d1-44b4-b69e-6ea81f13085f",
+                            Image = "Ubuntu",
                             UserId = 2
                         });
                 });

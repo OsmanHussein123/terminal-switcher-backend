@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Hosting;
-
-namespace LoginService.models
+﻿namespace ContainerService.models
 {
     public class User
     {
@@ -8,5 +6,7 @@ namespace LoginService.models
         public string Username { get; set; }
         public string Password { get; set; }
         public List<Container> Containers { get; } = new List<Container>();
+
+
     }
 }
