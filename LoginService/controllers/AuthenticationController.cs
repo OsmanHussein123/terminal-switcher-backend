@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BCrypt.Net;
+using System.Security.Claims;
 
 namespace LoginService.controllers
 {
@@ -81,6 +82,19 @@ namespace LoginService.controllers
 
            
             return Ok(users);
+        }
+
+        [HttpGet("user")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetUser()
+        {
+
+            string username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var user = _context.Users.Include(x => x.Containers)
+                     .Where(x => x.Username == username)
+                     .Select(x => new {username = x.Username,containers = x.Containers});
+            return Ok(user);
         }
 
         [HttpGet("verify")]

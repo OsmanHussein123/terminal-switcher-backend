@@ -14,24 +14,30 @@ namespace ContainerService.services
 
         }
 
-        public async Task<string> DockerExec(string command)
+        public async Task<string> DockerExec(string command,string containerName)
         {
+
+            new MessageService().EnqueueCommand(containerName, command);
             List<string> commands = command.Split(' ').ToList();
-
-            var execCreateParameters = new ContainerExecCreateParameters
+            String task = await StartContainer(new Container() { ContainerName = containerName });
+            if(task.Length > 0) 
             {
-                Cmd = commands,
-                AttachStdout = true,
-                AttachStderr = true,
-            };
+                var execCreateParameters = new ContainerExecCreateParameters
+                {
+                    Cmd = commands,
+                    AttachStdout = true,
+                    AttachStderr = true,
+                };
 
-            var execCreateResponse = await client.Exec.ExecCreateContainerAsync("ubuntu", execCreateParameters, default);
+                var execCreateResponse = await client.Exec.ExecCreateContainerAsync(containerName, execCreateParameters, default);
 
-            using (var stdOutAndErrStream = await client.Exec.StartAndAttachContainerExecAsync(execCreateResponse.ID, false, default))
-            {
-                var (stdout, stderr) = await stdOutAndErrStream.ReadOutputToEndAsync(default);
-                return stdout.ToString();
+                using (var stdOutAndErrStream = await client.Exec.StartAndAttachContainerExecAsync(execCreateResponse.ID, false, default))
+                {
+                    var (stdout, stderr) = await stdOutAndErrStream.ReadOutputToEndAsync(default);
+                    return stdout.ToString();
+                }
             }
+            return "";
         }
         public async Task<List<Container>> listContainer()
         {
@@ -66,7 +72,12 @@ namespace ContainerService.services
                 await client.Containers.CreateContainerAsync(new CreateContainerParameters()
                 {
                     Image = container.Image,
-                    Name = container.ContainerName
+                    Name = container.ContainerName,
+                    Tty=true,
+                    AttachStdin=true,
+                    AttachStdout=true,
+                    AttachStderr=true,
+                    
                 });
 
 
@@ -84,10 +95,10 @@ namespace ContainerService.services
         {
             try
             {
-                var x = await client.Containers.InspectContainerAsync(container.ContainerName);
-
-
+                
+                await client.Containers.StartContainerAsync(container.ContainerName, new ContainerStartParameters());
                 return "ok";
+                
             }
             catch (Exception E)
             {

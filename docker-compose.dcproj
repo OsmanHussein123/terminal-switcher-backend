@@ -9,6 +9,17 @@
     <DockerServiceName>loginservice</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="deployment\activity-deployment.yml" />
+    <None Include="deployment\admin-user.yml" />
+    <None Include="deployment\container-deployment.yml" />
+    <None Include="deployment\container-service-deployment.yml" />
+    <None Include="deployment\login-deployment.yml" />
+    <None Include="deployment\login-service-deployment.yml" />
+    <None Include="deployment\mssql-deployment.yml" />
+    <None Include="deployment\rabbitmq-deployment.yml" />
+    <None Include="deployment\security-deployment.yml" />
+    <None Include="deployment\testdeployement\login-deployment.yml" />
+    <None Include="deployment\testdeployement\mssql-deployment.yml" />
     <None Include="docker-compose.override.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>
     </None>

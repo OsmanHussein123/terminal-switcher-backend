@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loginservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: loginservice
+  template:
+    metadata:
+      labels:
+        app: loginservice
+    spec:
+      containers:
+      - name: loginservice
+        image: acrterminal.azurecr.io/loginservice
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        env:
+          - name: ASPNETCORE_URLS
+            value: http://*:80
+          - name: ConnectionStrings__DefaultConnection
+            value: Data Source=mssql-service,1433;Initial Catalog=db;User ID=sa;Password=S3cur3P@ssW0rd!; TrustServerCertificate=True     
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loginservice
+
+spec:
+  type: LoadBalancer
+  selector:
+    app: loginservice
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  - name: https
+    port: 443
+    targetPort: 443

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: activityservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: activityservice
+  template:
+    metadata:
+      labels:
+        app: activityservice
+    spec:
+      containers:
+      - name: activityservice
+        image: osman0416/activityservice
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80

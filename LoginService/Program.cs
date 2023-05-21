@@ -13,6 +13,10 @@ builder.Services.AddSwaggerGen();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseSqlServer(connectionString));
 
+builder.Services.AddCors(policyBuilder =>
+    policyBuilder.AddDefaultPolicy(policy =>
+        policy.WithOrigins("*").AllowAnyHeader().AllowAnyHeader())
+);
 
 builder.Services
                .AddAuthentication(options =>
@@ -39,7 +43,7 @@ builder.Services
 builder.Services.AddScoped<ITokenBuilder, TokenBuilder>();
 
 var app = builder.Build();
-
+app.UseCors();
 await using var scope = app.Services.CreateAsyncScope();
 using var db = scope.ServiceProvider.GetService<ApplicationDbContext>();
 await db.Database.MigrateAsync();

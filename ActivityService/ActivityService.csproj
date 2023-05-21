@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>ae98fbed-f47d-437a-acc6-b19d6ba29b24</UserSecretsId>
+    <UserSecretsId>6e451306-d139-47d2-a80f-df5c5181a050</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
@@ -12,7 +12,6 @@
     <PackageReference Include="Docker.DotNet" Version="3.125.13" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.2" />
     <PackageReference Include="RabbitMQ.Client" Version="6.5.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
 </Project>

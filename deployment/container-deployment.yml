@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: containerservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: containerservice
+  template:
+    metadata:
+      labels:
+        app: containerservice
+    spec:
+      containers:
+      - name: containerservice
+        image: osman0416/containerservice
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        env:
+          - name: DB_HOST
+            value: db
+          - name: RABBITMQ_HOST
+            value: rabbitmq
+---
+version: v1
+kind: Service
+metadata:
+  name: containerservice
+spec:
+  selector:
+    app: containerservice
+  ports:
+  - name: http
+    port: 8081
+    targetPort: 80
+  - name: https
+    port: 8082
+    targetPort: 443

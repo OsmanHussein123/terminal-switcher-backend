@@ -50,22 +50,57 @@ namespace LoginService.Migrations
                         new
                         {
                             Id = 1,
-                            ContainerName = "80b8d683-86d3-4360-8303-e2184933f064",
+                            ContainerName = "727069e9-dae9-4c54-a9e0-6b5a87aa1e67",
                             Image = "alpine",
                             UserId = 1
                         },
                         new
                         {
                             Id = 2,
-                            ContainerName = "2de33b71-08eb-4932-9118-b37972246344",
+                            ContainerName = "1d17cdf0-98f6-4ca9-b164-861994099a76",
                             Image = "ubuntu",
                             UserId = 1
                         },
                         new
                         {
                             Id = 3,
-                            ContainerName = "29468db0-95c6-4776-9a79-a30f7c358cb0",
+                            ContainerName = "a4765804-ea33-4c47-a8c2-38bf47b7ac30",
                             Image = "debian",
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ContainerName = "92ee1493-216f-4b2e-9e0e-f23b660647e7",
+                            Image = "fedora/memcached",
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ContainerName = "4b5e099f-ea50-41d1-8bf6-c9b34d13b1d3",
+                            Image = "alpine",
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ContainerName = "c64f9e6c-abc5-499a-9d9b-d8d691eb474a",
+                            Image = "ubuntu",
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 7,
+                            ContainerName = "9fcfe6dc-ab67-46a1-ba4e-2302ac880402",
+                            Image = "debian",
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 8,
+                            ContainerName = "89058d55-dec9-4375-8a34-6df302b75d43",
+                            Image = "fedora/memcached",
                             UserId = 2
                         });
                 });

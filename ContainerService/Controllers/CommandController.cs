@@ -20,9 +20,9 @@ namespace terminal_switcher_backend.Controllers
 
         // GET api/<CommandController>/5
         [HttpGet("cmd")]
-        public async Task<string> get(string command)
+        public async Task<string> get(string command,string containerName)
         {
-            return await new command().DockerExec(command);
+            return await new command().DockerExec(command,containerName);
         }
 
         // GET api/<CommandController>/5

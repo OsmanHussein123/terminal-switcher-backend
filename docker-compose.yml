@@ -6,13 +6,30 @@ services:
     build:
       context: .
       dockerfile: SecurityService/Dockerfile
+    depends_on:
+          - rabbitmq
+  activityservice:
+    image: ${DOCKER_REGISTRY-}activityservice
+    ports:
+        - "7081:80"
+        - "7082:443"
+    build:
+        context: .
+        dockerfile: ActivityService/Dockerfile
+    depends_on:
+        - rabbitmq
   loginservice:
     image: ${DOCKER_REGISTRY-}loginservice
+    environment:  
+        - CONNECTIONSTRINGS__DefaultConnection=server=db,1433;Initial Catalog=db;Persist Security Info=False;User ID=sa;Password=S3cur3P@ssW0rd!;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;Connection Timeout=30;
     build:
       context: .
       dockerfile: LoginService/Dockerfile
-    depends_on:
-          - db
+
+    ports:
+        - "9081:80"
+        - "9082:443"
+
   containerservice:
     image: ${DOCKER_REGISTRY-}containerservice
     build:
@@ -23,6 +40,7 @@ services:
         - "8082:443"
     depends_on:
           - db
+          - rabbitmq 
   db:
         image: "mcr.microsoft.com/mssql/server:2022-latest"
         ports:
@@ -30,4 +48,16 @@ services:
         environment:
             SA_PASSWORD: "S3cur3P@ssW0rd!"
             ACCEPT_EULA: "Y"
+  rabbitmq:
+        image: "rabbitmq:3-management"
+        hostname: "rabbitmq"
+        labels:
+            NAME: "rabbitmq"
+        ports:
+            - "4369:4369"
+            - "5671:5671"
+            - "5672:5672"
+            - "25672:25672"
+            - "15671:15671"
+            - "15672:15672"
 

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: securityservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: securityservice
+  template:
+    metadata:
+      labels:
+        app: securityservice
+    spec:
+      containers:
+      - name: securityservice
+        image: osman0416/securityservice
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        env:
+          - name: RABBITMQ_HOST
+            value: rabbitmq
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
