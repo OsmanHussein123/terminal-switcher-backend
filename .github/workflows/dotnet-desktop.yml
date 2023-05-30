@@ -14,7 +14,7 @@ jobs:
         DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
       run: |
-        docker build . --file ./SecuritysService/Dockerfile --tag osman0416/securityservice:latest
+        docker build . --file ./SecurityService/Dockerfile --tag osman0416/securityservice:latest
         echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-        cd SecuritysService
+        cd SecurityService
         docker push osman0416/securityservice:latest
