@@ -1,6 +1,7 @@
 using ContainerService.data;
 using Microsoft.EntityFrameworkCore;
 using ContainerService.services;
+using ContainerService.models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,10 +17,13 @@ builder.Services.AddCors(policyBuilder =>
         policy.WithOrigins("*").AllowAnyHeader().AllowAnyHeader())
 );
 
-builder.Services.AddSingleton<IMessageService, MessageService>();
 
+builder.Services.AddSingleton<IMessageService, MessageService>();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(x => x.UseSqlServer(connectionString));
+
+builder.Services.Configure<MongoDBConfig>(builder.Configuration.GetSection("MongoDBConfig"));
+builder.Services.AddScoped<CommandContext>();
 
 var app = builder.Build();
 app.UseCors();

@@ -11,7 +11,9 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContainerService", "ContainerService\ContainerService.csproj", "{6D8FAE49-773B-4DDB-A52B-236EC6D5D773}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivityService", "ActivityService\ActivityService.csproj", "{B120F91D-8D4E-437E-A048-A4D9DE586187}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityService", "ActivityService\ActivityService.csproj", "{B120F91D-8D4E-437E-A048-A4D9DE586187}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityServiceTest", "..\SecurityServiceTest\SecurityServiceTest.csproj", "{62C83FB1-9911-458B-A7C0-9BD7086085B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{B120F91D-8D4E-437E-A048-A4D9DE586187}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B120F91D-8D4E-437E-A048-A4D9DE586187}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B120F91D-8D4E-437E-A048-A4D9DE586187}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62C83FB1-9911-458B-A7C0-9BD7086085B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62C83FB1-9911-458B-A7C0-9BD7086085B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62C83FB1-9911-458B-A7C0-9BD7086085B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62C83FB1-9911-458B-A7C0-9BD7086085B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

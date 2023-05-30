@@ -15,9 +15,7 @@ namespace ContainerService.services
         {
             Console.WriteLine("about to connect to rabbit");
 
-            _factory = new ConnectionFactory() { HostName = "rabbitmq", Port = 5672 };
-            _factory.UserName = "guest";
-            _factory.Password = "guest";
+            _factory = new ConnectionFactory() { Uri = new Uri("amqps://sykzyrtg:Yqs1ZCUi-uxMZTWgae9mVnDWUjxVVB61@goose.rmq2.cloudamqp.com/sykzyrtg") };
             _conn = _factory.CreateConnection();
             _channel = _conn.CreateModel();
             _channel.QueueDeclare(queue: "command",

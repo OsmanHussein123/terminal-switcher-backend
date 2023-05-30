@@ -12,24 +12,35 @@ namespace terminal_switcher_backend.Controllers
     public class CommandController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-
-        public CommandController(ApplicationDbContext context)
+        private readonly CommandContext _commandContext;
+        public CommandController(ApplicationDbContext context, CommandContext commandContext)
         {
             _context = context;
+            _commandContext = commandContext;
         }
 
-        // GET api/<CommandController>/5
+        // GET api/<CommandController>
         [HttpGet("cmd")]
         public async Task<string> get(string command,string containerName)
         {
-            return await new command().DockerExec(command,containerName);
+            await _commandContext.CreateAsync(new ContainerService.models.Command() { Action = command });
+            return await new CommandService().DockerExec(command,containerName);
         }
 
-        // GET api/<CommandController>/5
+        // GET api/<CommandController>
         [HttpGet("containers")]
-        public async Task<IActionResult> getContainer(string command)
+        public async Task<IActionResult> getContainer()
         {
+
             return Ok(await _context.Users.Include(e => e.Containers).ToListAsync());
         }
+
+        // GET api/<CommandController>
+        [HttpGet("commands")]
+        public async Task<IActionResult> getCommands()
+        {
+            return Ok(await _commandContext.GetAsync());
+        }
+
     }
 }

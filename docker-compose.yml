@@ -6,8 +6,6 @@ services:
     build:
       context: .
       dockerfile: SecurityService/Dockerfile
-    depends_on:
-          - rabbitmq
   activityservice:
     image: ${DOCKER_REGISTRY-}activityservice
     ports:
@@ -16,48 +14,45 @@ services:
     build:
         context: .
         dockerfile: ActivityService/Dockerfile
-    depends_on:
-        - rabbitmq
   loginservice:
     image: ${DOCKER_REGISTRY-}loginservice
     environment:  
-        - CONNECTIONSTRINGS__DefaultConnection=server=db,1433;Initial Catalog=db;Persist Security Info=False;User ID=sa;Password=S3cur3P@ssW0rd!;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;Connection Timeout=30;
+        - CONNECTIONSTRINGS__DefaultConnection=server=mssql,1433;Initial Catalog=db;Persist Security Info=False;User ID=sa;Password=S3cur3P@ssW0rd!;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;Connection Timeout=30;
     build:
       context: .
       dockerfile: LoginService/Dockerfile
-
     ports:
         - "9081:80"
         - "9082:443"
-
   containerservice:
     image: ${DOCKER_REGISTRY-}containerservice
+    environment:  
+        - CONNECTIONSTRINGS__DefaultConnection=server=mssql,1433;Initial Catalog=db;Persist Security Info=False;User ID=sa;Password=S3cur3P@ssW0rd!;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;Connection Timeout=30;
+        - MongoDBConfig__CommandCollectionName=Commands;
+        - MongoDBConfig__ConnectionString=mongodb://root:rootpassword@mongodb:27017;
+        - MongoDBConfig__DatabaseName=CommandDatabase; 
     build:
       context: .
       dockerfile: ContainerService/Dockerfile
     ports:
         - "8081:80"
         - "8082:443"
-    depends_on:
-          - db
-          - rabbitmq 
-  db:
+  mssql:
         image: "mcr.microsoft.com/mssql/server:2022-latest"
         ports:
           - "1433:1433"
         environment:
             SA_PASSWORD: "S3cur3P@ssW0rd!"
             ACCEPT_EULA: "Y"
-  rabbitmq:
-        image: "rabbitmq:3-management"
-        hostname: "rabbitmq"
-        labels:
-            NAME: "rabbitmq"
-        ports:
-            - "4369:4369"
-            - "5671:5671"
-            - "5672:5672"
-            - "25672:25672"
-            - "15671:15671"
-            - "15672:15672"
+  mongodb:
+      image: mongo:latest
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      ports:
+        - 27017:27017
+      volumes:
+        - mongodb_data_container:/data/db
+volumes:
+  mongodb_data_container:
 

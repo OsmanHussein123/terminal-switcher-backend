@@ -20,10 +20,7 @@ namespace ActivityService.service
         {
             ConnectionFactory factory = new ConnectionFactory
             {
-                HostName = "rabbitmq",
-                Port = 5672,
-                UserName = "guest",
-                Password = "guest"
+                Uri = new Uri("amqps://sykzyrtg:Yqs1ZCUi-uxMZTWgae9mVnDWUjxVVB61@goose.rmq2.cloudamqp.com/sykzyrtg"),
             };
             IConnection conn = factory.CreateConnection();
             IModel channel = conn.CreateModel();

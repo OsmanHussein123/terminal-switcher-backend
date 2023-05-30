@@ -25,7 +25,7 @@ namespace ContainerService.Controllers
         [HttpGet]
         public async Task<IActionResult> getContainer()
         {
-            return Ok(await new command().listContainer());
+            return Ok(await new CommandService().listContainer());
         }
 
         [HttpGet("start")]
@@ -36,7 +36,7 @@ namespace ContainerService.Controllers
             {
                 user.Containers.ForEach(async container =>
                 {
-                    await new command().StartContainer(container);
+                    await new CommandService().StartContainer(container);
                 });
             }
             return Ok(user.Containers);
