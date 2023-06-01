@@ -66,7 +66,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
       - name: Restore dependencies
-        run: dotnet restore ./path/to/your.sln
+        run: dotnet restore ./terminal-switcher-backend.sln
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/dotnet@master
         env:
