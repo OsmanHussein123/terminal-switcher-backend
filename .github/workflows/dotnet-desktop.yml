@@ -64,7 +64,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@3.0.3
       - name: Restore dependencies
         run: dotnet restore ./terminal-switcher-backend.sln
       - name: Run Snyk to check for vulnerabilities
