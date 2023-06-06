@@ -9,6 +9,8 @@ jobs:
         uses: actions/setup-dotnet@v3
       - name: Restore dependencies
         run: dotnet restore ./ContainerService/ContainerService.csproj
+      - name: vuild prject
+        run: dotnet build ./ContainerService/ContainerService.csproj
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/dotnet@master
         env:

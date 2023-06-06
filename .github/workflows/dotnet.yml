@@ -66,3 +66,4 @@ jobs:
       run: dotnet build ./ContainerService/ContainerService.csproj --no-restore
     - name: Test
       run: dotnet test ./ContainerService/ContainerService.csproj --no-build --verbosity normal
+ 
