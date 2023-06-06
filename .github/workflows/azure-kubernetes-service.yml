@@ -41,7 +41,7 @@ jobs:
 
     - name: 🌐 Install ingress-nginx
       run: |
-        kubectl apply -f https://aka.ms/tye/ingress/deploy
+        kubectl apply -f https://aka.ms/tye/ingress/deploy/
 
     - name: ☸ tye deploy
       run: |
