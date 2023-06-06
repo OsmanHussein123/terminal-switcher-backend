@@ -10,10 +10,8 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
-
+  build_securityservice:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -26,3 +24,45 @@ jobs:
       run: dotnet build ./SecurityService/SecurityService.csproj --no-restore
     - name: Test
       run: dotnet test ./SecurityService/SecurityService.csproj --no-build --verbosity normal
+  build_loginservice:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore ./LoginService/LoginService.csproj 
+    - name: Build
+      run: dotnet build ./LoginService/LoginService.csproj --no-restore
+    - name: Test
+      run: dotnet test ./LoginService/LoginService.csproj --no-build --verbosity normal
+  build_activityservice:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore ./ActivityService/ActivityService.csproj 
+    - name: Build
+      run: dotnet build ./ActivityService/ActivityService.csproj --no-restore
+    - name: Test
+      run: dotnet test ./ActivityService/ActivityService.csproj --no-build --verbosity normal
+  build_containerservice:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore ./ContainerService/ContainerService.csproj 
+    - name: Build
+      run: dotnet build ./ContainerService/ContainerService.csproj --no-restore
+    - name: Test
+      run: dotnet test ./ContainerService/ContainerService.csproj --no-build --verbosity normal
