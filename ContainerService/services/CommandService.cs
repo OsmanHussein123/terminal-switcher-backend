@@ -1,113 +1,40 @@
-﻿using Docker.DotNet;
-using Docker.DotNet.Models;
+﻿using ContainerService.data;
 using ContainerService.models;
+using Docker.DotNet.Models;
+using MongoDB.Driver;
 
 namespace ContainerService.services
 {
-    public class CommandService
+    public class CommandService : ICommandService
     {
-        private DockerClient client;
+        private readonly IMongoCollection<Command> _collection;
 
-        public CommandService()
+        public CommandService(CommandContext context) 
         {
-            client = new DockerClientConfiguration(new Uri("tcp://host.docker.internal:2375")).CreateClient();
-
+            _collection = context.Commands;
+        }
+        public async Task<Command> Add(Command command)
+        {
+            await _collection.InsertOneAsync(command);
+            return command;
         }
 
-        public async Task<string> DockerExec(string command,string containerName)
+        public IQueryable<Command> GetAll()
         {
-
-            new MessageService().EnqueueCommand(containerName, command);
-            List<string> commands = command.Split(' ').ToList();
-            String task = await StartContainer(new Container() { ContainerName = containerName });
-            if(task != null) 
-            {
-                var execCreateParameters = new ContainerExecCreateParameters
-                {
-                    Cmd = commands,
-                    AttachStdout = true,
-                    AttachStderr = true,
-                };
-
-                var execCreateResponse = await client.Exec.ExecCreateContainerAsync(containerName, execCreateParameters, default);
-
-                using (var stdOutAndErrStream = await client.Exec.StartAndAttachContainerExecAsync(execCreateResponse.ID, false, default))
-                {
-                    var (stdout, stderr) = await stdOutAndErrStream.ReadOutputToEndAsync(default);
-                    return stdout.ToString();
-                }
-            }
-            return "";
+            return _collection.AsQueryable();
         }
-        public async Task<List<Container>> listContainer()
+        public void Initialize()
         {
-            try
-            {
-                IList<ContainerListResponse> containers =
-                await client.Containers.ListContainersAsync(new ContainersListParameters());
-                List<Container> containersList = new List<Container>();
-                containers.ToList().ForEach(container =>
-                {
-                    Container _container = new Container()
-                    {
-                        ContainerName = container.Names.First(),
-                        Image=container.Image
-                    };
-                    containersList.Add(_container);
-                });
-                return containersList;
-            }
-            catch (Exception E)
-            {
-                String SS = E.ToString();
-                return null;
-            }
+            // Add any necessary initialization steps here
+            // For example, creating indexes or setting up initial data
 
+            // Create an index on the Id field for faster lookup
+            var indexKeys = Builders<Command>.IndexKeys.Ascending(x => x.Id);
+            var indexOptions = new CreateIndexOptions { Unique = true };
+            var indexModel = new CreateIndexModel<Command>(indexKeys, indexOptions);
+            _collection.Indexes.CreateOne(indexModel);
+
+            // Add additional initialization steps as needed
         }
-
-        public async Task<string> CreateContainer(Container container)
-        {
-            try
-            {
-                await client.Containers.CreateContainerAsync(new CreateContainerParameters()
-                {
-                    Image = container.Image,
-                    Name = container.ContainerName,
-                    Tty=true,
-                    AttachStdin=true,
-                    AttachStdout=true,
-                    AttachStderr=true,
-                    
-                });
-
-
-                return "ok";
-            }
-            catch(Exception E) 
-            {
-                String SS = E.ToString();
-                return null;
-            }
-            
-        }
-
-        public async Task<string> StartContainer(Container container)
-        {
-            try
-            {
-                
-                await client.Containers.StartContainerAsync(container.ContainerName, new ContainerStartParameters());
-                return "ok";
-                
-            }
-            catch (Exception E)
-            {
-                String SS = E.ToString();
-                return null;
-            }
-
-        }
-
-
     }
 }

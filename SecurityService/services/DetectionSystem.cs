@@ -12,7 +12,8 @@
 
         public bool ControllCommand(string command)
         {
-            bool contains = checklist.Contains(command);
+            List<string> commands = command.Split(' ').ToList();
+            bool contains = commands.Any(checklist.Contains);
             return contains;
         }
     }

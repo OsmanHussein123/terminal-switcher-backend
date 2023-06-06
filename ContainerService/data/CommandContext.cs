@@ -1,4 +1,5 @@
 ﻿using ContainerService.models;
+using Docker.DotNet.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -7,22 +8,14 @@ namespace ContainerService.data
 
     public class CommandContext
     {
-        public IMongoCollection<Command> Commands { get; }
-        private readonly MongoDBConfig _settings;
-        public CommandContext(IOptions<MongoDBConfig> settings)
+        private readonly IMongoDatabase _database;
+        public IMongoCollection<Command> Commands => _database.GetCollection<Command>("Commands");
+        public CommandContext(string connectionString, string databaseName)
         {
 
-            _settings = settings.Value;
-            var client = new MongoClient(_settings.ConnectionString);
-            var database = client.GetDatabase(_settings.DatabaseName);
-            Commands = database.GetCollection<Command>(_settings.CommandCollectionName);
+            var client = new MongoClient(connectionString);
+            _database = client.GetDatabase(databaseName);
         }
 
-
-        public async Task CreateAsync(Command newCommand) =>
-    await Commands.InsertOneAsync(newCommand);
-
-        public async Task<List<Command>> GetAsync() =>
-    await Commands.Find(_ => true).ToListAsync();
     }
 }

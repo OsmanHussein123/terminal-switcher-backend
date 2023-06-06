@@ -28,9 +28,7 @@ services:
     image: ${DOCKER_REGISTRY-}containerservice
     environment:  
         - CONNECTIONSTRINGS__DefaultConnection=server=mssql,1433;Initial Catalog=db;Persist Security Info=False;User ID=sa;Password=S3cur3P@ssW0rd!;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;Connection Timeout=30;
-        - MongoDBConfig__CommandCollectionName=Commands;
-        - MongoDBConfig__ConnectionString=mongodb://root:rootpassword@mongodb:27017;
-        - MongoDBConfig__DatabaseName=CommandDatabase; 
+        - CONNECTIONSTRINGS__MongoConnection=mongodb://mongodb:27017/terminal.commandservice
     build:
       context: .
       dockerfile: ContainerService/Dockerfile
@@ -45,14 +43,12 @@ services:
             SA_PASSWORD: "S3cur3P@ssW0rd!"
             ACCEPT_EULA: "Y"
   mongodb:
-      image: mongo:latest
-      environment:
-        MONGO_INITDB_ROOT_USERNAME: root
-        MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      hostname: command_mongodb
+      image: mongo
+      restart: always
+      container_name: command_mongodb
       ports:
         - 27017:27017
-      volumes:
-        - mongodb_data_container:/data/db
-volumes:
-  mongodb_data_container:
+      expose:
+        - "27017:27017"
 

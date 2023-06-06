@@ -12,19 +12,19 @@ namespace terminal_switcher_backend.Controllers
     public class CommandController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly CommandContext _commandContext;
-        public CommandController(ApplicationDbContext context, CommandContext commandContext)
+        private readonly CommandApp _app;
+        public CommandController(ApplicationDbContext context, CommandApp app)
         {
             _context = context;
-            _commandContext = commandContext;
+            _app = app;
         }
 
         // GET api/<CommandController>
         [HttpGet("cmd")]
         public async Task<string> get(string command,string containerName)
         {
-            await _commandContext.CreateAsync(new ContainerService.models.Command() { Action = command });
-            return await new CommandService().DockerExec(command,containerName);
+            await _app.Add(new ContainerService.models.Command() { Action = command });
+            return await new ContainersService().DockerExec(command,containerName);
         }
 
         // GET api/<CommandController>
@@ -39,7 +39,7 @@ namespace terminal_switcher_backend.Controllers
         [HttpGet("commands")]
         public async Task<IActionResult> getCommands()
         {
-            return Ok(await _commandContext.GetAsync());
+            return Ok(_app.GetAll());
         }
 
     }

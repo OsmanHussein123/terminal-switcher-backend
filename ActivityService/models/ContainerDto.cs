@@ -16,7 +16,7 @@ namespace ContainerService.models
         {
             timer = new System.Timers.Timer();
             timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-            timer.Interval = 6000;
+            timer.Interval = 60000;
         }
 
         private async void OnTimedEvent(object source, ElapsedEventArgs e)
