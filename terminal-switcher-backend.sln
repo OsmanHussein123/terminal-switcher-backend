@@ -13,7 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ContainerService", "Contain
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityService", "ActivityService\ActivityService.csproj", "{B120F91D-8D4E-437E-A048-A4D9DE586187}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityServiceTest", "..\SecurityServiceTest\SecurityServiceTest.csproj", "{62C83FB1-9911-458B-A7C0-9BD7086085B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityServiceTest", "..\SecurityServiceTest\SecurityServiceTest.csproj", "{62C83FB1-9911-458B-A7C0-9BD7086085B1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{F598C76C-7BAD-4084-B2FA-926ADED083D8}"
+	ProjectSection(SolutionItems) = preProject
+		codeql-config.yml = codeql-config.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
