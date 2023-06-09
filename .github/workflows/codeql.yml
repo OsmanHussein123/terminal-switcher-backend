@@ -67,7 +67,7 @@ jobs:
       run: dotnet build ./ContainerService/ContainerService.csproj --no-restore
     - name: Build LoginService
       run: dotnet build ./LoginService/LoginService.csproj --no-restore
-    - name: BuildSecurityService
+    - name: Build SecurityService
       run: dotnet build ./SecurityService/SecurityService.csproj --no-restore
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
