@@ -69,6 +69,10 @@ jobs:
       run: dotnet build ./LoginService/LoginService.csproj --no-restore
     - name: Build SecurityService
       run: dotnet build ./SecurityService/SecurityService.csproj --no-restore
+    - name: Run Snyk to check for vulnerabilities
+      uses: snyk/actions/dotnet@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
       with:
