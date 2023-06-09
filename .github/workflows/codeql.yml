@@ -49,8 +49,8 @@ jobs:
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, Go, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+    #- name: Autobuild
+    #  uses: github/codeql-action/autobuild@v2
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
@@ -61,7 +61,14 @@ jobs:
     # - run: |
     #     echo "Run, Build Application using script"
     #     ./location_of_script_within_repo/buildscript.sh
-
+    - name: Build ActivityService
+      run: dotnet build ./ActivityService/ActivityService.csproj --no-restore
+    - name: Build ContainerService
+      run: dotnet build ./ContainerService/ContainerService.csproj --no-restore
+    - name: Build LoginService
+      run: dotnet build ./LoginService/LoginService.csproj --no-restore
+    - name: BuildSecurityService
+      run: dotnet build ./SecurityService/SecurityService.csproj --no-restore
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
       with:
