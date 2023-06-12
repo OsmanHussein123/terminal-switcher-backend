@@ -27,5 +27,7 @@ jobs:
         run: dotnet build ./SecurityService/SecurityService.csproj --no-restore
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/dotnet@master
+        with:
+          command: all-projects
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
