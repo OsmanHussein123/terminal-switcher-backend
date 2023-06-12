@@ -28,6 +28,6 @@ jobs:
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/dotnet@master
         with:
-          command: all-projects
+          command: test -all-projects
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
