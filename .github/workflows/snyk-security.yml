@@ -17,14 +17,14 @@ jobs:
         run: dotnet restore ./ActivityService/ActivityService.csproj 
       - name: Restore dependencies containerservice
         run: dotnet restore ./ContainerService/ContainerService.csproj 
-      - name: Build ActivityService
-        run: dotnet build ./ActivityService/ActivityService.csproj --no-restore
-      - name: Build ContainerService
-        run: dotnet build ./ContainerService/ContainerService.csproj --no-restore
-      - name: Build LoginService
-        run: dotnet build ./LoginService/LoginService.csproj --no-restore
-      - name: Build SecurityService
-        run: dotnet build ./SecurityService/SecurityService.csproj --no-restore
+      #- name: Build ActivityService
+      #  run: dotnet build ./ActivityService/ActivityService.csproj --no-restore
+      #- name: Build ContainerService
+      #  run: dotnet build ./ContainerService/ContainerService.csproj --no-restore
+      #- name: Build LoginService
+      #  run: dotnet build ./LoginService/LoginService.csproj --no-restore
+      #- name: Build SecurityService
+      #  run: dotnet build ./SecurityService/SecurityService.csproj --no-restore
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/dotnet@master
         with:
