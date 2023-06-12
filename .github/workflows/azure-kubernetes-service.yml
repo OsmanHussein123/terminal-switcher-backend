@@ -12,7 +12,7 @@ jobs:
     name: tye deploy
     runs-on: ubuntu-latest
     steps:
-    - uses: azure/deploy-to-aks@v1
+    - uses: azure/deploy-to-aks@v2
       with:
         kubeconfig: '${{ secrets.KUBE_CONFIG}}' # Use secret (https://developer.github.com/actions/managing-workflows/storing-secrets/)
         #context: <context name>  #If left unspecified, current-context from kubeconfig is used as default
